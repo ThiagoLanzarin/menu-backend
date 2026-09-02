@@ -1,9 +1,10 @@
 /* eslint-disable prettier/prettier */
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { CategoryController } from "./category.controller";
 
-@Entity('category')
+@Entity('')
 
-export class Category{
+export class Category {
     @PrimaryGeneratedColumn('uuid')
     id: string;
   
