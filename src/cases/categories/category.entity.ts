@@ -1,13 +1,11 @@
 /* eslint-disable prettier/prettier */
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-import { CategoryController } from "./category.controller";
 
-@Entity('')
-
+@Entity('categories')
 export class Category {
     @PrimaryGeneratedColumn('uuid')
     id: string;
-  
+
     @Column({ length: 60, nullable: false })
     name: string;
 

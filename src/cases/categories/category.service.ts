@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 
-import { Repository } from "typeorm/browser/repository/Repository.js";
+import { Repository } from "typeorm";
 import { Category } from "./category.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Injectable, NotFoundException } from "@nestjs/common";

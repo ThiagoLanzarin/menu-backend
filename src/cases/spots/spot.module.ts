@@ -10,6 +10,8 @@ import { SpotService } from "./spot.service";
 
     controllers: [SpotController],
     providers: [SpotService],
+    exports: [SpotService]
+
 })
 
 export class SpotModule {
