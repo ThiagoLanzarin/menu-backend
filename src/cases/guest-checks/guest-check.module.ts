@@ -9,5 +9,6 @@ import { GuestCheckService } from "./guest-check.service";
     imports: [TypeOrmModule.forFeature([GuestCheck, Spot])],
     controllers: [GuestCheckController],
     providers: [GuestCheckService],
+    exports: [GuestCheckService],
 })
 export class GuestCheckModule {}
