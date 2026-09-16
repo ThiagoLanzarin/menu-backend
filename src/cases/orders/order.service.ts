@@ -1,11 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateOrderDto, CreateOrderItemDto } from './dto/create-order';
-import { Order, OrderStatus } from './order.entity';
-import { OrderItem } from './order-item.entity';
+import { Order, OrderStatus } from './entities/order.entity';
+import { OrderItem } from './entities/order-item.entity';
 import { GuestCheckService } from '../guest-checks/guest-check.service';
 import { ProductService } from '../products/product.service';
+import { UpdateOrderStatusDto } from './dto/update-order-status';
 
 @Injectable()
 export class OrderService {
@@ -54,6 +55,43 @@ export class OrderService {
             items,
         });
 
+        return this.orderRepository.save(order);
+    }
+
+    findAll(): Promise<Order[]> { 
+        return this.orderRepository.find({
+            order: { createdAt: 'DESC' },
+        });
+    }
+
+    async findOne(id: string): Promise<Order> {
+        const order = await this.orderRepository.findOneBy({ id });
+
+        if (!order) {
+            throw new NotFoundException(' Pedido não encontrado');
+        }
+
+        return order;
+    }
+
+    async updateStatus(id: string, dto: UpdateOrderStatusDto): Promise<Order> {
+        const order = await this.findOne(id);
+        const nextStatus : Record<OrderStatus, OrderStatus | undefined> = {
+            [OrderStatus.NEW]: OrderStatus.PREPARING,
+            [OrderStatus.PREPARING]: OrderStatus.READY,
+            [OrderStatus.READY]: OrderStatus.DELIVERY,
+            [OrderStatus.DELIVERY]: undefined,
+        };
+
+        //verifico se a transição pedida é a próxima válida a partir do status atual
+        if (nextStatus[order.status] !== dto.status) {
+            throw new BadRequestException(`Status inválido!`);
+        }
+
+        //forço a mudança de status
+        order.status = dto.status;
+
+        //grava alteração no banco
         return this.orderRepository.save(order);
     }
 }

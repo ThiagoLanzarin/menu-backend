@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { GuestCheck } from '../guest-checks/guest-check.entity';
+import { GuestCheck } from '../../guest-checks/guest-check.entity';
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { OrderItem } from './order-item.entity';
 

@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Product } from '../products/product.entity';
+import { Product } from '../../products/product.entity';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Order } from './order.entity';
 
